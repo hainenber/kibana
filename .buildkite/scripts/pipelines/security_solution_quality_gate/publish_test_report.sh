@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# npm install -g junit-report-merger
+npm install -g junit-report-merger
 
 mkdir target
 buildkite-agent artifact download '*.xml' target/
