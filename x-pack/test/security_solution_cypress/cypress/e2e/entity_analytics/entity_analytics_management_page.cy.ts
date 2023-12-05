@@ -77,18 +77,24 @@ describe(
         cy.get(USER_RISK_PREVIEW_TABLE).contains('No items found');
       });
 
-      it('risk scores reacts on change in search bar query', () => {
-        cy.get(HOST_RISK_PREVIEW_TABLE_ROWS).should('have.length', 5);
-        cy.get(USER_RISK_PREVIEW_TABLE_ROWS).should('have.length', 5);
+      it(
+        'risk scores reacts on change in search bar query',
+        {
+          tags: ['@ess', '@serverlessQA'],
+        },
+        () => {
+          cy.get(HOST_RISK_PREVIEW_TABLE_ROWS).should('have.length', 5);
+          cy.get(USER_RISK_PREVIEW_TABLE_ROWS).should('have.length', 5);
 
-        fillLocalSearchBar('host.name: "test-host1"');
-        submitLocalSearch(LOCAL_QUERY_BAR_SELECTOR);
+          fillLocalSearchBar('host.name: "test-host1"');
+          submitLocalSearch(LOCAL_QUERY_BAR_SELECTOR);
 
-        cy.get(HOST_RISK_PREVIEW_TABLE_ROWS).should('have.length', 1);
-        cy.get(HOST_RISK_PREVIEW_TABLE_ROWS).contains('test-host1');
-        cy.get(USER_RISK_PREVIEW_TABLE_ROWS).should('have.length', 1);
-        cy.get(USER_RISK_PREVIEW_TABLE_ROWS).contains('test1');
-      });
+          cy.get(HOST_RISK_PREVIEW_TABLE_ROWS).should('have.length', 1);
+          cy.get(HOST_RISK_PREVIEW_TABLE_ROWS).contains('test-host1');
+          cy.get(USER_RISK_PREVIEW_TABLE_ROWS).should('have.length', 1);
+          cy.get(USER_RISK_PREVIEW_TABLE_ROWS).contains('test1');
+        }
+      );
 
       it('show error panel if API returns error and then try to refetch data', () => {
         interceptRiskPreviewError();
