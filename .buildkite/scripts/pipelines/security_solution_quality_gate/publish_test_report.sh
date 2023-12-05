@@ -1,17 +1,26 @@
 #!/bin/bash
 
+source .buildkite/scripts/common/util.sh
+.buildkite/scripts/bootstrap.sh
+
 npm install -g junit-report-merger
 
-mkdir target
-buildkite-agent artifact download '*.xml' target/
+mkdir report
+buildkite-agent artifact download '*.xml' report/
 
-jrm target/combined.xml "target/*.xml"
+echo "Checking report"
+ls report/target/junit
 
-ls target
+echo "Combining files"
+jrm report/combined.xml "report/target/junit/*.xml"
 
-cat target/combined.xml
+echo "Checking report"
+ls report/target/junit
 
-cd target
+echo "Checking combined content"
+cat report/combined.xml
+
+cd report
 
 BK_ANALYTICS_API_KEY=$(retry 5 5 vault read -field=serverless-sec-sol-cypress-bk-api-key secret/kibana-issues/dev/security-solution-qg-enc-key)
 

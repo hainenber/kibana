@@ -1,30 +1,30 @@
 steps:
-  - command: .buildkite/scripts/pipelines/security_solution_quality_gate/create_docker_image.sh
-    label: Build kibana image
-    key: build_image
-    agents:
-      queue: n2-16-spot
-    timeout_in_minutes: 60
-    retry:
-      automatic:
-        - exit_status: "-1"
-          limit: 3
+  # - command: .buildkite/scripts/pipelines/security_solution_quality_gate/create_docker_image.sh
+  #   label: Build kibana image
+  #   key: build_image
+  #   agents:
+  #     queue: n2-16-spot
+  #   timeout_in_minutes: 60
+  #   retry:
+  #     automatic:
+  #       - exit_status: "-1"
+  #         limit: 3
 
-  - command: .buildkite/scripts/pipelines/security_solution_quality_gate/upload_runtime_info.sh
-    label: "Upload runtime info"
-    key: upload_runtime_info
-    depends_on: build_image
-    agents:
-      queue: n2-4-spot
-    timeout_in_minutes: 300
-    retry:
-      automatic:
-        - exit_status: "*"
-          limit: 1
+  # - command: .buildkite/scripts/pipelines/security_solution_quality_gate/upload_runtime_info.sh
+  #   label: "Upload runtime info"
+  #   key: upload_runtime_info
+  #   depends_on: build_image
+  #   agents:
+  #     queue: n2-4-spot
+  #   timeout_in_minutes: 300
+  #   retry:
+  #     automatic:
+  #       - exit_status: "*"
+  #         limit: 1
 
   - group: "Execute Tests"
     key: run_tests
-    depends_on: build_image
+    # depends_on: build_image
     steps:
       - command: .buildkite/scripts/pipelines/security_solution_quality_gate/security_solution_cypress/mki_security_solution_cypress.sh cypress:run:qa:serverless
         label: "Serverless MKI QA Security Cypress Tests"
@@ -32,7 +32,7 @@ steps:
           queue: n2-4-spot
         # TODO : Revise the timeout when the pipeline will be officially integrated with the quality gate.
         timeout_in_minutes: 300
-        parallelism: 6
+        parallelism: 1
         retry:
           automatic:
             - exit_status: "*"
