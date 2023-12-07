@@ -25,6 +25,25 @@ else
     KIBANA_OVERRIDE_FLAG=1
 fi
 
+BK_ANALYTICS_API_KEY=$(retry 5 5 vault read -field=serverless-sec-sol-cypress-bk-api-key secret/kibana-issues/dev/security-solution-qg-enc-key)
 QA_API_KEY=$(retry 5 5 vault read -field=qa_api_key secret/kibana-issues/dev/security-solution-qg-enc-key)
 
-OVERRIDE_KIBANA=$KIBANA_OVERRIDE_FLAG CLOUD_QA_API_KEY=$QA_API_KEY yarn $1; status=$?; yarn junit:merge || :; exit $status
+retry 5 5 vault read -format=json secret/kibana-issues/dev/security-solution-qg-enc-key > role_users.json
+
+
+BK_ANALYTICS_API_KEY=$BK_ANALYTICS_API_KEY OVERRIDE_KIBANA=$KIBANA_OVERRIDE_FLAG CLOUD_QA_API_KEY=$QA_API_KEY yarn $1; status=$?; yarn junit:merge || :; exit $status
+
+
+
+{
+    "test_role": {
+        "email": "",
+        "password": ""
+    }
+}
+
+role_users 
+    test_role
+        email
+        password
+        

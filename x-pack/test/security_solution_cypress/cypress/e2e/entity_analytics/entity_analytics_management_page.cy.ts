@@ -96,17 +96,23 @@ describe(
         }
       );
 
-      it('show error panel if API returns error and then try to refetch data', () => {
-        interceptRiskPreviewError();
+      it(
+        'show error panel if API returns error and then try to refetch data',
+        {
+          tags: ['@ess', '@serverlessQA'],
+        },
+        () => {
+          interceptRiskPreviewError();
 
-        cy.get(RISK_PREVIEW_ERROR).contains('Preview failed');
+          cy.get(RISK_PREVIEW_ERROR).contains('Preview failed');
 
-        interceptRiskPreviewSuccess();
+          interceptRiskPreviewSuccess();
 
-        previewErrorButtonClick();
+          previewErrorButtonClick();
 
-        cy.get(RISK_PREVIEW_ERROR).should('not.exist');
-      });
+          cy.get(RISK_PREVIEW_ERROR).should('not.exist');
+        }
+      );
     });
 
     describe('Risk engine', () => {
