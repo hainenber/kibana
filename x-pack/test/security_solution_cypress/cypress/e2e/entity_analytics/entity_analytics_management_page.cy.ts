@@ -135,16 +135,22 @@ describe(
         cy.get(RISK_SCORE_STATUS).should('have.text', 'On');
       });
 
-      it('should show error panel if API returns error ', () => {
-        cy.get(RISK_SCORE_STATUS).should('have.text', 'Off');
+      it(
+        'should show error panel if API returns error ',
+        {
+          tags: ['@ess', '@serverlessQA'],
+        },
+        () => {
+          cy.get(RISK_SCORE_STATUS).should('have.text', 'Off');
 
-        interceptRiskInitError();
+          interceptRiskInitError();
 
-        // init
-        riskEngineStatusChange();
+          // init
+          riskEngineStatusChange();
 
-        cy.get(RISK_SCORE_ERROR_PANEL).contains('There was an error');
-      });
+          cy.get(RISK_SCORE_ERROR_PANEL).contains('There was an error');
+        }
+      );
 
       it('should update if there legacy risk score installed', () => {
         installRiskScoreModule();
