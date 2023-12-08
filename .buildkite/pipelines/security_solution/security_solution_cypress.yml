@@ -86,14 +86,14 @@ steps:
       #       - exit_status: "*"
       #         limit: 1
 
-  - command: .buildkite/scripts/pipelines/security_solution_quality_gate/publish_test_report.sh
-    label: "Publish test report"
-    key: publish_test_report
-    depends_on: run_tests
-    agents:
-      queue: n2-4-spot
-    timeout_in_minutes: 300
-    retry:
-      automatic:
-        - exit_status: "*"
-          limit: 1
+  # - command: .buildkite/scripts/pipelines/security_solution_quality_gate/publish_test_report.sh
+  #   label: "Publish test report"
+  #   key: publish_test_report
+  #   depends_on: run_tests
+  #   agents:
+  #     queue: n2-4-spot
+  #   timeout_in_minutes: 300
+  #   retry:
+  #     automatic:
+  #       - exit_status: "*"
+  #         limit: 1
