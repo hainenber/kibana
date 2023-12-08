@@ -1,8 +1,5 @@
 {
-  "reporterEnabled": "mochawesome, mocha-junit-reporter, buildkite-test-collector/mocha/reporter",
-  "buildkiteTestCollectorMochaReporterReporterOptions": {
-    "token_name": "BK_ANALYTICS_API_KEY"
-  },
+  "reporterEnabled": "mochawesome, mocha-junit-reporter",
   "reporterOptions": {
     "html": false,
     "json": true,
